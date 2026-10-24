@@ -227,12 +227,12 @@ var SCHEMA = [
    {k:'video.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'video.text', t:TA, l:'छोटा पैराग्राफ'},
    {k:'video.points', t:LST, l:'नंबर वाले पॉइंट', h:'1, 2, 3 नंबर के साथ', add:'+ पॉइंट जोड़ें'}
  ]},
- {id:'gallery', title:'🖼️ फोटो गैलरी', where:'वीडियो के नीचे, साइड में स्वाइप होने वाली फोटो', show:'gallery.show', fields:[
+ {id:'gallery', title:'🖼️ फोटो गैलरी', where:'वीडियो के नीचे, कैटेगरी बटन + बड़ी फोटो + छोटी फोटो की पट्टी', show:'gallery.show', fields:[
    {k:'gallery.label', t:T, l:'छोटा नीला लेबल'}, {k:'gallery.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
-   {k:'gallery.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'gallery.hint', t:T, l:'नीचे की छोटी लाइन'},
+   {k:'gallery.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'gallery.hint', t:T, l:'नीचे की छोटी लाइन'}, {k:'gallery.all_label', t:T, l:'पहले बटन का नाम', h:'सारी फोटो वाला बटन, जैसे: सभी'},
    {k:'gallery.popup_button', t:T, l:'बड़ी फोटो खुलने पर हरा बटन'}, {k:'gallery.popup_message', t:TA, l:'उस बटन का WhatsApp मैसेज'}
  ], list:{k:'gallery.photos', item:'फोटो', add:'+ नई फोटो जोड़ें', fields:[
-   {k:'image', t:IMG, l:'फोटो'}, {k:'caption', t:T, l:'फोटो पर लिखा नाम', h:'फोटो के नीचे बाएं कोने में'}], blank:{image:'',caption:''}}},
+   {k:'image', t:IMG, l:'फोटो'}, {k:'caption', t:T, l:'फोटो पर लिखा नाम', h:'फोटो के नीचे बाएं कोने में। समझ न आए तो खाली छोड़ें'}, {k:'cat', t:T, l:'कौन सी कैटेगरी में दिखे', h:'जैसे: बाहर, लिविंग, किचन, बेडरूम। एक जैसा नाम लिखेंगे तो एक ही बटन बनेगा। खाली = सिर्फ "सभी" में'}], blank:{image:'',caption:'',cat:''}}},
  {id:'price', title:'💰 प्राइस / बजट', where:'गैलरी के नीचे, पीले बॉर्डर वाला डब्बा', show:'price.show', fields:[
    {k:'price.label', t:T, l:'छोटा पीला लेबल'}, {k:'price.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
    {k:'price.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'price.text', t:TA, l:'छोटा पैराग्राफ'},

@@ -213,13 +213,13 @@ footer .ad{font-size:14px;letter-spacing:.08em;color:var(--muted);margin-top:2px
 footer .disc{font-size:13px;color:#7488a0;margin:22px auto 0;max-width:520px}
 
 /* social proof popup */
-.proof{position:fixed;left:12px;bottom:16px;z-index:45;max-width:min(330px,calc(100vw - 24px));display:flex;gap:11px;align-items:center;background:rgba(22,40,62,.97);border:1px solid rgba(246,180,0,.4);border-radius:16px;padding:10px 16px 10px 12px;box-shadow:0 14px 34px -10px rgba(0,0,0,.7);transform:translateY(24px) scale(.94);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.2,.9,.3,1.2),opacity .4s,bottom .3s;cursor:pointer;font-family:inherit;text-align:left;color:var(--text)}
+.proof{position:fixed;left:12px;top:calc(62px + env(safe-area-inset-top));z-index:45;max-width:min(300px,calc(100vw - 24px));display:flex;gap:11px;align-items:center;background:rgba(22,40,62,.97);border:1px solid rgba(246,180,0,.4);border-radius:16px;padding:7px 14px 7px 8px;box-shadow:0 10px 26px -10px rgba(0,0,0,.7);transform:translateY(-18px) scale(.94);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.2,.9,.3,1.2),opacity .4s,bottom .3s;cursor:pointer;font-family:inherit;text-align:left;color:var(--text)}
 .proof.on{transform:none;opacity:1;pointer-events:auto}
-.proof .pi{flex:none;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:grid;place-items:center;font-size:19px}
-.proof .pt{font-size:15px;line-height:1.35}
+.proof .pi{flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold2),var(--gold));display:grid;place-items:center;font-size:15px}
+.proof .pt{font-size:14px;line-height:1.3}
 .proof .pt b{color:var(--gold2)}
 .proof .pw{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
-@media(min-width:760px){.proof{left:20px;bottom:24px!important}}
+@media(min-width:760px){.proof{left:20px;top:84px}}
 /* sticky bar */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(12,23,36,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));transform:translateY(110%);transition:transform .35s}
 .sticky.on{transform:none}
@@ -496,7 +496,7 @@ function bind(){
   if(pp && C.proof){
     var pf=C.proof, ppl=(pf.people||[]).filter(function(x){return x&&x.name&&x.name.trim()}), order=[], shown=0, num=function(v,d){v=parseFloat(v);return isNaN(v)?d:v;};
     var nextName=function(){if(!order.length)order=ppl.slice().sort(function(){return Math.random()-.5});return order.pop();};
-    var tpl=pf.template||'{name} ने साइट विज़िट बुक की', maxN=num(pf.max_per_visit,6), showS=num(pf.show_seconds,4), g1=num(pf.gap_min,10), g2=Math.max(g1,num(pf.gap_max,20));
+    var tpl=pf.template||'{name} ने साइट विज़िट बुक की', maxN=num(pf.max_per_visit,6), showS=num(pf.show_seconds,3), g1=num(pf.gap_min,10), g2=Math.max(g1,num(pf.gap_max,20));
     $('ppi').textContent=pf.icon||'✅';
     var busy=function(){return document.hidden||$('lb').classList.contains('on')||$('cm').classList.contains('on');};
     var cycle=function(delay){ if(shown>=maxN||!ppl.length)return;
@@ -504,7 +504,7 @@ function bind(){
         if(busy()){cycle(4);return;}
         var p=nextName(), parts=tpl.split('{name}'), tx=$('ptx'); tx.textContent='';
         tx.appendChild(document.createTextNode(parts[0]||'')); var b=document.createElement('b');b.textContent=p.name.trim();tx.appendChild(b); tx.appendChild(document.createTextNode(parts.slice(1).join('{name}')));
-        $('pwh').textContent=p.when||''; var st=$('sticky'); pp.style.bottom=(st&&st.classList.contains('on')?84:16)+'px'; pp.classList.add('on'); shown++;
+        $('pwh').textContent=p.when||''; pp.classList.add('on'); shown++;
         setTimeout(function(){pp.classList.remove('on');cycle(g1+Math.random()*(g2-g1));},showS*1000);
       },delay*1000); };
     pp.addEventListener('click',function(){pp.classList.remove('on');track('proof_click');var v=document.getElementById('visit');if(v)v.scrollIntoView({behavior:'smooth'});});

@@ -401,8 +401,14 @@ function track(name,params,std){
   if(WEIGHTS[key]&&!fired[name]) SCORE+=WEIGHTS[key];
   fired[name]=true; params.intent_score=SCORE; params.intent_tier=tierOf(SCORE);
   if(window.fbq){ if(std) fbq('track',std,Object.assign({content_name:s.property_name,value:+s.lead_value||0,currency:'INR'},params)); fbq('trackCustom',key,params); }
-  if(SCORE>=70&&!fired.__hot){fired.__hot=true; if(window.fbq) fbq('trackCustom','HighIntent_Visitor',params); log('HighIntent_Visitor');}
+  var det=Object.assign({},params); ['property','code','visitor','ad','intent_score','intent_tier'].forEach(function(k){delete det[k]}); logSheet({event:name,std:std||'',detail:Object.keys(det).length?JSON.stringify(det):''});
+  if(SCORE>=70&&!fired.__hot){fired.__hot=true; if(window.fbq) fbq('trackCustom','HighIntent_Visitor',params); logSheet({event:'HighIntent_Visitor'}); log('HighIntent_Visitor');}
   log(name,std);
+}
+function logSheet(o){
+  try{ var u=C&&C.settings&&C.settings.sheet_url; if(!u||EDIT||!/^https:\/\/script\.google\.com\//.test(u)) return;
+    var b=Object.assign({vid:VID,score:SCORE,tier:tierOf(SCORE),ad:UTM.content||'organic',campaign:UTM.campaign||'',source:UTM.source||'',visits:VISITS,property:C.settings.property_code||'',device:/Mobi|Android|iPhone/i.test(navigator.userAgent)?'mobile':'desktop'},o);
+    fetch(u,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:JSON.stringify(b)}); }catch(e){}
 }
 function waURL(msg,btn){
   var s=C.settings, ref='\n\n(Ref: '+s.property_code+'-'+btn.toUpperCase()+(UTM.content?'-'+UTM.content:'')+'-'+VID+')';
@@ -571,7 +577,7 @@ function log(name,std){
 (function start(){
   function go(c){
     render(c); loadPixel(c.settings.pixel_id);
-    if(!EDIT){ [30,60,120].forEach(function(t){setTimeout(function(){if(!document.hidden)track('time_'+t+'s');},t*1000);}); if(VISITS>1) track('return_visit',{visits:VISITS}); }
+    if(!EDIT){ logSheet({event:'page_view'}); [30,60,120].forEach(function(t){setTimeout(function(){if(!document.hidden)track('time_'+t+'s');},t*1000);}); if(VISITS>1) track('return_visit',{visits:VISITS}); }
     if(DEBUG){var db=document.getElementById('dbgBtn');db.hidden=false;db.onclick=function(){document.getElementById('dbg').classList.toggle('on')};log('page_view');}
     if(EDIT && parent!==window) parent.postMessage({type:'cg-ready'},location.origin);
   }

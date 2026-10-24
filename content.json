@@ -1,0 +1,161 @@
+{
+  "settings": {
+    "phone": "917732887792",
+    "phone_display": "+91 77328 87792",
+    "whatsapp": "917732887792",
+    "pixel_id": "",
+    "property_name": "21 Villa Township",
+    "property_code": "21VT",
+    "lead_value": 6000000,
+    "site_title": "21 Villa Township",
+    "site_description": "21 विला टाउनशिप — कालवाड़ रोड, जयपुर में अल्ट्रा लग्ज़री 3 BHK विला। ₹60–75 लाख। फ्री साइट विज़िट।",
+    "share_image": "hero-night.jpg"
+  },
+  "brand": {
+    "logo": "logo.png",
+    "logo_icon": "logo-icon.png",
+    "name": "CHOKHA GHAR",
+    "sub": "DEVELOPERS",
+    "header_call": "कॉल करें"
+  },
+  "hero": {
+    "image": "hero-night.jpg",
+    "badge": "सिर्फ 21 विला · सीमित यूनिट",
+    "title": "21 विला टाउनशिप",
+    "subtitle": "अल्ट्रा लग्ज़री 3 BHK विला",
+    "english_line": "21 Villa Township · Ultra Luxury 3 BHK Villa",
+    "address": "📍 सिरसी लिंक रोड, *कालवाड़ रोड, जयपुर*",
+    "address_line2": "हाथोज बस स्टैंड से सिर्फ *500 मीटर*",
+    "price_label": "कीमत",
+    "price": "₹60 – 75 लाख*",
+    "visit_button": "फ्री साइट विज़िट बुक करें",
+    "visit_button_en": "Free Site Visit Book Karein",
+    "whatsapp_button": "WhatsApp",
+    "whatsapp_message": "Hi, mujhe 21 Villa Township (Kalwar Road) ki details chahiye.",
+    "call_button": "कॉल करें",
+    "points": ["फ्री साइट विज़िट", "ईस्ट और वेस्ट फेसिंग", "तैयार विला देखें"]
+  },
+  "facts": [
+    { "big": "3 *BHK*", "small": "अल्ट्रा लग्ज़री विला" },
+    { "big": "*21* विला", "small": "एक शानदार टाउनशिप" },
+    { "big": "ईस्ट *+* वेस्ट", "small": "दोनों फेसिंग मौजूद" },
+    { "big": "*500* मी.", "small": "हाथोज बस स्टैंड से" }
+  ],
+  "video": {
+    "show": true,
+    "file": "reel.mp4",
+    "poster": "reel-poster.jpg",
+    "label": "52 सेकंड का वीडियो",
+    "title": "कुछ पते ज़िंदगी का *पता बदल देते हैं*",
+    "english_line": "Kuch pate zindagi ka pata badal dete hain",
+    "text": "ड्रोन से देखिए टाउनशिप, लोकेशन और अंदर का काम — फिर खुद आकर देखिए।",
+    "points": [
+      "अलग-अलग साइज़ के 3 BHK विला, ईस्ट और वेस्ट दोनों फेसिंग",
+      "डिज़ाइनर इंटीरियर — लकड़ी का काम, सुंदर लाइटिंग, मॉड्यूलर किचन",
+      "पास में हॉस्पिटल, स्कूल और बड़े प्रोजेक्ट"
+    ]
+  },
+  "gallery": {
+    "show": true,
+    "label": "फोटो गैलरी",
+    "title": "अंदर से *कैसा दिखता है*",
+    "english_line": "Andar se kaisa dikhta hai",
+    "hint": "← स्वाइप करें · फोटो पर टैप करके बड़ा देखें",
+    "photos": [
+      { "image": "exterior-day.jpg", "caption": "सामने का लुक" },
+      { "image": "living-tree.jpg", "caption": "लिविंग रूम" },
+      { "image": "living-entry.jpg", "caption": "एंट्री और लॉबी" },
+      { "image": "kitchen-green.jpg", "caption": "मॉड्यूलर किचन" },
+      { "image": "kitchen-pink.jpg", "caption": "किचन · टाइप 2" },
+      { "image": "aerial-township.jpg", "caption": "ऊपर से टाउनशिप" }
+    ],
+    "popup_button": "और फोटो WhatsApp पर पाएं",
+    "popup_message": "Hi, maine 21 Villa Township ki photos dekhi. Aur photos/video bhej dijiye."
+  },
+  "price": {
+    "show": true,
+    "label": "साइज़ के हिसाब से प्राइस लिस्ट",
+    "title": "आपका बजट *कितना है?*",
+    "english_line": "Apna budget chunein",
+    "text": "बजट चुनें — उसी बजट वाले विला का साइज़, नक्शा और सही कीमत हम WhatsApp पर भेज देंगे।",
+    "budgets": ["₹60–65 लाख", "₹65–70 लाख", "₹70–75 लाख", "₹75 लाख+", "अभी तय नहीं"],
+    "locked_rows": [
+      { "name": "3 BHK · ईस्ट फेसिंग", "value": "₹ XX,XX,XXX" },
+      { "name": "3 BHK · वेस्ट फेसिंग", "value": "₹ XX,XX,XXX" },
+      { "name": "नक्शा + प्लॉट साइज़", "value": "🔒 लॉक" }
+    ],
+    "button": "प्राइस लिस्ट और नक्शा पाएं",
+    "button_en": "Price List WhatsApp par paayein",
+    "whatsapp_message": "Hi, mujhe 21 Villa Township ki size-wise price list aur floor plan (naksha) chahiye."
+  },
+  "location": {
+    "show": true,
+    "image": "aerial-hathoj.jpg",
+    "image_tag": "📍 हाथोज बस स्टैंड · *500 मी.*",
+    "label": "लोकेशन",
+    "title": "कालवाड़ रोड की *छुपी हुई लोकेशन*",
+    "english_line": "Kalwar Road ki chhupi hui location",
+    "text": "मेन रोड के पास, फिर भी शांत इलाका। आसपास बड़े प्रोजेक्ट चल रहे हैं।",
+    "places": [
+      { "icon": "🚌", "name": "हाथोज बस स्टैंड", "detail": "कालवाड़ रोड", "distance": "500 मी." },
+      { "icon": "🏥", "name": "चिरायु हॉस्पिटल", "detail": "इलाज के लिए", "distance": "पास में" },
+      { "icon": "🏫", "name": "वर्धमान ग्रुप स्कूल", "detail": "बच्चों की पढ़ाई", "distance": "पास में" },
+      { "icon": "🏗️", "name": "बड़े रेज़िडेंशियल प्रोजेक्ट", "detail": "तेज़ी से बढ़ता इलाका", "distance": "आसपास" }
+    ],
+    "button": "📍 मैप लोकेशन WhatsApp पर मंगाएं",
+    "whatsapp_message": "Hi, 21 Villa Township ki exact location (Google Maps pin) bhej dijiye."
+  },
+  "visit": {
+    "show": true,
+    "label": "फ्री साइट विज़िट",
+    "title": "कब *आना चाहेंगे?*",
+    "english_line": "Site visit kab karna chahenge?",
+    "text": "दिन और समय चुनें — कन्फर्मेशन WhatsApp पर मिलेगा।",
+    "days_ahead": 30,
+    "day_label": "दिन चुनें",
+    "time_label": "समय चुनें",
+    "slots": [
+      { "name": "सुबह", "time": "10 – 1 बजे", "message": "Subah 10–1 baje" },
+      { "name": "दोपहर", "time": "1 – 4 बजे", "message": "Dopahar 1–4 baje" },
+      { "name": "शाम", "time": "4 – 7 बजे", "message": "Shaam 4–7 baje" }
+    ],
+    "name_label": "आपका नाम",
+    "name_placeholder": "जैसे: राहुल शर्मा",
+    "family_label": "परिवार के साथ आएंगे?",
+    "error": "कृपया दिन और समय चुनें 🙏",
+    "button": "साइट विज़िट पक्की करें",
+    "button_en": "Site Visit Confirm Karein",
+    "whatsapp_message": "Hi, mujhe 21 Villa Township ki FREE SITE VISIT book karni hai."
+  },
+  "questions": {
+    "show": true,
+    "label": "कोई सवाल है?",
+    "title": "एक टैप में *पूछिए*",
+    "english_line": "Ek tap mein WhatsApp par poochhiye",
+    "link_text": "WhatsApp पर पूछें →",
+    "items": [
+      { "icon": "🏦", "question": "होम लोन मिलेगा?", "code": "loan", "whatsapp_message": "Hi, 21 Villa Township ke liye home loan mil jayega kya?" },
+      { "icon": "📐", "question": "प्लॉट साइज़ कितना है?", "code": "size", "whatsapp_message": "Hi, 21 Villa Township mein plot size / sq.ft kitna hai?" },
+      { "icon": "🔑", "question": "पज़ेशन कब मिलेगा?", "code": "possession", "whatsapp_message": "Hi, 21 Villa Township ka possession kab tak milega?" },
+      { "icon": "📄", "question": "रजिस्ट्री और अप्रूवल?", "code": "registry", "whatsapp_message": "Hi, 21 Villa Township ki registry / approval details bataiye." }
+    ]
+  },
+  "footer": {
+    "tagline": "Chokha Ghar,",
+    "tagline_2": "Chokhi Zindagi",
+    "tagline_hindi": "चोखा घर, चोखी ज़िंदगी",
+    "address": "कालवाड़ रोड · जयपुर",
+    "disclaimer": "*कीमत अनुमानित है, साइज़ और फेसिंग के हिसाब से बदल सकती है। फोटो सिर्फ जानकारी के लिए हैं। पूरी जानकारी साइट विज़िट पर कन्फर्म करें।"
+  },
+  "sticky_bar": {
+    "call": "कॉल",
+    "whatsapp": "WhatsApp",
+    "visit": "📅 साइट विज़िट"
+  },
+  "call_popup": {
+    "title": "हमें कॉल करें",
+    "button": "अभी कॉल करें",
+    "copy": "नंबर कॉपी करें",
+    "copied": "✓ नंबर कॉपी हो गया"
+  }
+}

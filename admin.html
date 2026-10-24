@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Landing Page Admin</title>
+<link rel="icon" href="logo-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1420;--panel:#111e2e;--card:#16263a;--line:rgba(255,255,255,.1);--text:#eef3f8;--muted:#9aabbf;--blue:#4c9bff;--gold:#f6b400;--gold2:#ffd35c;--green:#25d366;--red:#ff6b6b;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0b1420}}
+:root[data-theme="dark"]{--bg:#0b1420}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Mukta',system-ui,sans-serif;font-size:15.5px;line-height:1.45}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:var(--blue)}
+.hidden{display:none !important}
+
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:16px}
+.lbox{width:100%;max-width:440px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:26px 20px}
+.lbox img{width:56px;margin-bottom:10px}
+.lbox h1{font-size:24px;line-height:1.2}
+.lbox p{color:var(--muted);font-size:14.5px;margin:6px 0 16px}
+.lbox label{display:block;font-weight:700;font-size:14px;margin:12px 0 6px}
+.inp{width:100%;min-height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);padding:10px 12px;font-size:15.5px}
+.inp:focus{outline:2px solid var(--blue);border-color:transparent}
+textarea.inp{min-height:84px;resize:vertical}
+.chk{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:14px;color:var(--muted)}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:12px;font-weight:700;font-size:15px}
+.b-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#1d1400}
+.b-green{background:var(--green);color:#03200e}
+.b-ghost{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04)}
+.b-red{border:1px solid rgba(255,107,107,.5);color:var(--red)}
+.b-sm{min-height:34px;padding:0 11px;font-size:13.5px;border-radius:10px}
+.b:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--red);font-size:14px;margin-top:10px;min-height:1em}
+details.help{margin-top:16px;background:rgba(76,155,255,.08);border:1px solid rgba(76,155,255,.25);border-radius:14px;padding:12px 14px;font-size:14px}
+details.help summary{cursor:pointer;font-weight:700}
+details.help ol{margin:8px 0 0 18px;display:grid;gap:4px;color:#cdd8e4}
+
+/* app layout */
+.top{position:sticky;top:0;z-index:30;background:rgba(11,20,32,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.topbar img{width:30px}
+.topbar b{font-size:16px}
+.topbar .sp{flex:1}
+.status{font-size:13px;color:var(--muted)}
+.status.dirty{color:var(--gold2)}
+@media(max-width:430px){.status{display:none}}
+.nav{display:flex;gap:6px;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;border:1px solid var(--line);border-radius:30px;padding:6px 12px;font-size:14px;font-weight:600;background:rgba(255,255,255,.03);white-space:nowrap}
+.nav button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.mtabs{display:none;gap:6px;padding:0 14px 10px}
+.mtabs button{flex:1;border-radius:10px;padding:8px;font-weight:700;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.mtabs button.on{background:#fff;color:#0b1420}
+
+.main{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:20px;max-width:1280px;margin:0 auto;padding:16px 14px 110px}
+.pv{position:sticky;top:120px;height:calc(100vh - 140px);display:flex;flex-direction:column;align-items:center}
+.pv .lbl{font-size:13px;color:var(--muted);margin-bottom:8px}
+.phone{width:390px;max-width:100%;flex:1;border-radius:34px;border:10px solid #1d2a3b;overflow:hidden;background:#0c1724;box-shadow:0 30px 60px -30px #000}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+@media(max-width:920px){
+  .main{grid-template-columns:1fr}
+  .mtabs{display:flex}
+  .pv{position:static;height:calc(100vh - 170px)}
+  body.m-edit .pv{display:none}
+  body.m-prev .editor{display:none}
+}
+
+/* editor cards */
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px 16px;margin-bottom:16px;scroll-margin-top:130px}
+.sec>h2{font-size:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sec>p.where{color:var(--muted);font-size:14px;margin:2px 0 12px}
+.tgl{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.f{padding:12px 0;border-top:1px solid var(--line)}
+.f:first-of-type{border-top:0}
+.f>label{display:block;font-weight:700;font-size:15px}
+.f .hint{font-size:13px;color:var(--muted);margin:1px 0 7px}
+.f .hint b{color:var(--gold2);font-weight:600}
+.f.focus{background:rgba(76,155,255,.06);margin:0 -10px;padding:12px 10px;border-radius:12px}
+
+/* image field */
+.imgf{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:start}
+.thumb{position:relative;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.15);background:#000 repeating-conic-gradient(#1a2636 0 25%,#0f1a28 0 50%) 0 0/16px 16px;aspect-ratio:4/3}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.contain img{object-fit:contain}
+.thumb .badge{position:absolute;left:6px;top:6px;background:rgba(0,0,0,.75);font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:20px}
+.thumb .badge.new{background:var(--gold);color:#1d1400}
+.imgf .meta{font-size:13px;color:var(--muted);word-break:break-all;margin-bottom:8px}
+.imgf .acts{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:480px){.imgf{grid-template-columns:1fr}.thumb{max-width:260px}}
+
+/* lists */
+.list{display:grid;gap:10px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.item .ih{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.item .ih b{font-size:13.5px;color:var(--muted);flex:1}
+.item .ih button{width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.06);font-size:15px}
+.item .sub{margin-top:8px}
+.item .sub label{font-size:13px;font-weight:700;color:#cdd8e4;display:block;margin-bottom:4px}
+.row{display:flex;gap:8px;align-items:center}
+.row .inp{flex:1}
+.add{margin-top:10px}
+
+/* switch */
+.sw{width:46px;height:27px;border-radius:20px;background:rgba(255,255,255,.2);position:relative;flex:none;transition:.2s}
+.sw:after{content:"";position:absolute;width:21px;height:21px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.2s}
+.sw[aria-checked="true"]{background:var(--green)}
+.sw[aria-checked="true"]:after{left:22px}
+
+/* save bar */
+.save{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(11,20,32,.97);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.save .in{max-width:1280px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.save .msg{flex:1;font-size:14px;color:var(--muted)}
+.save .msg b{color:var(--gold2)}
+.toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:99;background:#fff;color:#0b1420;padding:10px 16px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:92vw}
+.prog{height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;background:var(--green);width:0;transition:width .3s}
+</style>
+</head>
+<body class="m-edit">
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="lbox">
+    <img src="logo-icon.png" alt="">
+    <h1>Landing Page Admin</h1>
+    <p>यहाँ से पेज का हर टेक्स्ट, फोटो, नंबर और बटन बदल सकते हैं।</p>
+    <label for="tok">GitHub एक्सेस टोकन (Access Token)</label>
+    <input class="inp" id="tok" type="password" placeholder="github_pat_..." autocomplete="off">
+    <div class="chk"><input type="checkbox" id="rem" checked><label for="rem" style="margin:0;font-weight:500">इस फ़ोन/कंप्यूटर पर याद रखें</label></div>
+    <button class="b b-gold" style="width:100%;margin-top:16px" id="loginBtn">लॉगिन करें</button>
+    <div class="err" id="lerr"></div>
+    <details class="help">
+      <summary>टोकन कैसे बनाएं? (सिर्फ एक बार)</summary>
+      <ol>
+        <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> खोलें</li>
+        <li><b>Token name:</b> Landing Admin · <b>Expiration:</b> 1 year</li>
+        <li><b>Repository access:</b> Only select repositories → <b>21-villa-township</b></li>
+        <li><b>Permissions → Repository → Contents:</b> Read and write</li>
+        <li><b>Generate token</b> दबाएं, टोकन कॉपी करके यहाँ डालें</li>
+      </ol>
+      <p style="margin:8px 0 0;color:var(--muted)">टोकन किसी के साथ शेयर न करें — ये पासवर्ड जैसा है।</p>
+    </details>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appw" class="hidden">
+  <div class="top">
+    <div class="topbar">
+      <img src="logo-icon.png" alt=""><b>Admin</b><span class="status" id="status">लोड हो रहा है…</span>
+      <span class="sp"></span>
+      <a class="b b-ghost b-sm" href="./" target="_blank" rel="noopener">लाइव पेज ↗</a>
+      <button class="b b-ghost b-sm" id="logout">लॉगआउट</button>
+    </div>
+    <div class="nav" id="nav"></div>
+    <div class="mtabs"><button class="on" data-m="edit">✏️ बदलाव करें</button><button data-m="prev">👁️ प्रीव्यू देखें</button></div>
+  </div>
+  <div class="main">
+    <div class="editor" id="editor"></div>
+    <div class="pv"><div class="lbl">प्रीव्यू (अभी सेव नहीं हुआ) · किसी भी फ़ील्ड पर टैप करें, यहाँ वो जगह चमकेगी</div><div class="phone"><iframe id="pv" title="Preview"></iframe></div></div>
+  </div>
+  <div class="save">
+    <div class="in">
+      <div class="msg" id="smsg">कोई बदलाव नहीं</div>
+      <button class="b b-ghost" id="undo" disabled>रद्द करें</button>
+      <button class="b b-green" id="saveBtn" disabled>💾 सेव करके लाइव करें</button>
+    </div>
+    <div class="prog hidden" id="prog"><i></i></div>
+  </div>
+</div>
+
+<script>
+/* ============ CONFIG ============ */
+var REPO = { owner:'chokhaghar', name:'21-villa-township', branch:'main' };
+var API = 'https://api.github.com/repos/'+REPO.owner+'/'+REPO.name+'/contents/';
+
+/* ============ SCHEMA: har field ka naam + page par kahan dikhta hai ============ */
+var T='text', TA='textarea', IMG='image', VID='video', NUM='number', PH='phone', LST='strings';
+var SCHEMA = [
+ {id:'settings', title:'⚙️ मुख्य सेटिंग्स', where:'नंबर, WhatsApp, Pixel — पूरे पेज पर लागू', fields:[
+   {k:'settings.phone', t:PH, l:'मोबाइल नंबर (कॉल के लिए)', h:'सारे <b>कॉल बटन</b> इसी नंबर पर कॉल लगाएंगे — 10 अंक लिखें'},
+   {k:'settings.whatsapp', t:PH, l:'WhatsApp नंबर', h:'सारे <b>WhatsApp बटन</b> इसी नंबर पर मैसेज भेजेंगे'},
+   {k:'settings.phone_display', t:T, l:'पेज पर दिखने वाला नंबर', h:'<b>फुटर</b> और <b>कॉल पॉपअप</b> में ऐसे लिखा दिखेगा'},
+   {k:'settings.property_name', t:T, l:'प्रॉपर्टी का नाम (ट्रैकिंग के लिए)', h:'Meta Pixel रिपोर्ट में यही नाम आएगा'},
+   {k:'settings.property_code', t:T, l:'प्रॉपर्टी कोड', h:'WhatsApp मैसेज के आखिर में <b>Ref कोड</b> में जाता है, जैसे 21VT'},
+   {k:'settings.pixel_id', t:T, l:'Meta Pixel ID', h:'Pixel बनने के बाद यहाँ डालें (सिर्फ नंबर)'},
+   {k:'settings.lead_value', t:NUM, l:'लीड वैल्यू (₹)', h:'Pixel को बताने के लिए कि एक लीड कितने की है'},
+   {k:'settings.site_title', t:T, l:'ब्राउज़र टैब का नाम', h:'ब्राउज़र के ऊपर टैब में और Google में दिखता है'},
+   {k:'settings.site_description', t:TA, l:'शेयर डिस्क्रिप्शन', h:'लिंक शेयर करने पर नीचे दिखने वाली लाइन'}
+ ]},
+ {id:'brand', title:'🏷️ ब्रांड / लोगो', where:'सबसे ऊपर हेडर और सबसे नीचे फुटर', fields:[
+   {k:'brand.logo_icon', t:IMG, l:'छोटा लोगो (आइकन)', h:'<b>सबसे ऊपर बाएं कोने</b> में, नाम के साथ', contain:1},
+   {k:'brand.logo', t:IMG, l:'पूरा लोगो', h:'<b>पेज के सबसे नीचे</b> फुटर में', contain:1},
+   {k:'brand.name', t:T, l:'ब्रांड नाम', h:'ऊपर हेडर में लोगो के पास'},
+   {k:'brand.sub', t:T, l:'ब्रांड के नीचे छोटी लाइन', h:'जैसे DEVELOPERS'},
+   {k:'brand.header_call', t:T, l:'ऊपर वाला कॉल बटन', h:'<b>ऊपर दाएं कोने</b> का बटन'}
+ ]},
+ {id:'hero', title:'🏠 सबसे ऊपर (पहली स्क्रीन)', where:'पेज खुलते ही जो दिखता है', fields:[
+   {k:'hero.image', t:IMG, l:'मुख्य बड़ी फोटो', h:'<b>पेज खुलते ही सबसे ऊपर</b> दिखने वाली बड़ी फोटो'},
+   {k:'hero.badge', t:T, l:'पीला टैग', h:'फोटो के ऊपर पीले बॉर्डर वाला छोटा टैग'},
+   {k:'hero.title', t:T, l:'मुख्य हेडिंग', h:'सबसे बड़ा सफेद टाइटल'},
+   {k:'hero.subtitle', t:T, l:'पीली सब-हेडिंग', h:'टाइटल के नीचे पीले तिरछे अक्षरों में'},
+   {k:'hero.english_line', t:T, l:'इंग्लिश लाइन', h:'छोटी धुंधली इंग्लिश लाइन'},
+   {k:'hero.address', t:T, l:'पता (लाइन 1)', h:'<b>*…*</b> के बीच का हिस्सा मोटा/सफेद दिखेगा'},
+   {k:'hero.address_line2', t:T, l:'पता (लाइन 2)', h:'<b>*…*</b> के बीच का हिस्सा मोटा दिखेगा'},
+   {k:'hero.price_label', t:T, l:'कीमत से पहले का शब्द', h:'जैसे "कीमत"'},
+   {k:'hero.price', t:T, l:'कीमत', h:'पीले डब्बे में बड़ी कीमत'},
+   {k:'hero.visit_button', t:T, l:'पीला बटन (हिंदी)', h:'<b>साइट विज़िट</b> वाला बड़ा पीला बटन'},
+   {k:'hero.visit_button_en', t:T, l:'पीला बटन (इंग्लिश लाइन)', h:'उसी बटन के नीचे छोटी लाइन'},
+   {k:'hero.whatsapp_button', t:T, l:'हरा WhatsApp बटन', h:'ऊपर वाला हरा बटन'},
+   {k:'hero.whatsapp_message', t:TA, l:'WhatsApp मैसेज (हरे बटन से)', h:'ग्राहक के WhatsApp में पहले से लिखा आएगा — <b>नीचे की पट्टी</b> का WhatsApp भी यही भेजेगा'},
+   {k:'hero.call_button', t:T, l:'कॉल बटन', h:'हरे बटन के बगल वाला'},
+   {k:'hero.points', t:LST, l:'टिक वाले पॉइंट', h:'बटनों के नीचे हरे ✓ के साथ', add:'+ पॉइंट जोड़ें'}
+ ]},
+ {id:'facts', title:'🔢 4 खास बातें', where:'पहली स्क्रीन के ठीक नीचे 4 डब्बे', list:{k:'facts', item:'डब्बा', add:'+ डब्बा जोड़ें', fields:[
+   {k:'big', t:T, l:'बड़ा टेक्स्ट', h:'<b>*…*</b> वाला हिस्सा पीला'}, {k:'small', t:T, l:'छोटा टेक्स्ट'}], blank:{big:'',small:''}}},
+ {id:'video', title:'🎬 वीडियो', where:'खास बातों के नीचे', show:'video.show', fields:[
+   {k:'video.file', t:VID, l:'वीडियो फाइल', h:'<b>फोन जैसी लंबी वीडियो</b> (9:16) — 40MB से छोटी रखें'},
+   {k:'video.poster', t:IMG, l:'वीडियो की कवर फोटो', h:'प्ले दबाने से पहले दिखने वाली फोटो'},
+   {k:'video.label', t:T, l:'छोटा नीला लेबल'}, {k:'video.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला-तिरछा'},
+   {k:'video.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'video.text', t:TA, l:'छोटा पैराग्राफ'},
+   {k:'video.points', t:LST, l:'नंबर वाले पॉइंट', h:'1, 2, 3 नंबर के साथ', add:'+ पॉइंट जोड़ें'}
+ ]},
+ {id:'gallery', title:'🖼️ फोटो गैलरी', where:'वीडियो के नीचे, साइड में स्वाइप होने वाली फोटो', show:'gallery.show', fields:[
+   {k:'gallery.label', t:T, l:'छोटा नीला लेबल'}, {k:'gallery.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
+   {k:'gallery.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'gallery.hint', t:T, l:'नीचे की छोटी लाइन'},
+   {k:'gallery.popup_button', t:T, l:'बड़ी फोटो खुलने पर हरा बटन'}, {k:'gallery.popup_message', t:TA, l:'उस बटन का WhatsApp मैसेज'}
+ ], list:{k:'gallery.photos', item:'फोटो', add:'+ नई फोटो जोड़ें', fields:[
+   {k:'image', t:IMG, l:'फोटो'}, {k:'caption', t:T, l:'फोटो पर लिखा नाम', h:'फोटो के नीचे बाएं कोने में'}], blank:{image:'',caption:''}}},
+ {id:'price', title:'💰 प्राइस / बजट', where:'गैलरी के नीचे, पीले बॉर्डर वाला डब्बा', show:'price.show', fields:[
+   {k:'price.label', t:T, l:'छोटा पीला लेबल'}, {k:'price.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
+   {k:'price.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'price.text', t:TA, l:'छोटा पैराग्राफ'},
+   {k:'price.budgets', t:LST, l:'बजट के बटन', h:'ग्राहक इनमें से अपना बजट चुनेगा', add:'+ बजट जोड़ें'},
+   {k:'price.button', t:T, l:'पीला बटन'}, {k:'price.button_en', t:T, l:'बटन की इंग्लिश लाइन'},
+   {k:'price.whatsapp_message', t:TA, l:'बटन का WhatsApp मैसेज', h:'चुना हुआ बजट अपने आप जुड़ जाएगा'}
+ ], list:{k:'price.locked_rows', item:'धुंधली लाइन', add:'+ लाइन जोड़ें', title:'धुंधली (लॉक) कीमत वाली लाइनें', fields:[
+   {k:'name', t:T, l:'बाएं लिखा'}, {k:'value', t:T, l:'दाएं (धुंधला)', h:'🔒 लिखेंगे तो धुंधला नहीं होगा'}], blank:{name:'',value:'₹ XX,XX,XXX'}}},
+ {id:'location', title:'📍 लोकेशन', where:'प्राइस के नीचे', show:'location.show', fields:[
+   {k:'location.image', t:IMG, l:'लोकेशन फोटो', h:'<b>लोकेशन सेक्शन</b> की चौकोर फोटो (ड्रोन/मैप)'},
+   {k:'location.image_tag', t:T, l:'फोटो पर टैग', h:'फोटो के नीचे बाएं — <b>*…*</b> पीला'},
+   {k:'location.label', t:T, l:'छोटा नीला लेबल'}, {k:'location.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
+   {k:'location.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'location.text', t:TA, l:'छोटा पैराग्राफ'},
+   {k:'location.button', t:T, l:'नीचे का बटन'}, {k:'location.whatsapp_message', t:TA, l:'बटन का WhatsApp मैसेज'}
+ ], list:{k:'location.places', item:'जगह', add:'+ जगह जोड़ें', title:'आसपास की जगहें', fields:[
+   {k:'icon', t:T, l:'इमोजी', h:'जैसे 🏥 🏫 🚌'}, {k:'name', t:T, l:'जगह का नाम'}, {k:'detail', t:T, l:'नीचे छोटी लाइन'}, {k:'distance', t:T, l:'दूरी', h:'दाएं पीले में'}], blank:{icon:'📍',name:'',detail:'',distance:''}}},
+ {id:'visit', title:'📅 साइट विज़िट बुकिंग', where:'लोकेशन के नीचे, नीला डब्बा', show:'visit.show', fields:[
+   {k:'visit.label', t:T, l:'छोटा नीला लेबल'}, {k:'visit.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
+   {k:'visit.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'visit.text', t:TA, l:'छोटा पैराग्राफ'},
+   {k:'visit.days_ahead', t:NUM, l:'आगे के कितने दिन दिखें', h:'1 से 90 तक'},
+   {k:'visit.day_label', t:T, l:'"दिन चुनें" लेबल'}, {k:'visit.time_label', t:T, l:'"समय चुनें" लेबल'},
+   {k:'visit.name_label', t:T, l:'नाम वाले बॉक्स का लेबल'}, {k:'visit.name_placeholder', t:T, l:'नाम बॉक्स में धुंधला उदाहरण'},
+   {k:'visit.family_label', t:T, l:'परिवार वाला सवाल'}, {k:'visit.error', t:T, l:'गलती का मैसेज', h:'दिन/समय न चुनने पर लाल लाइन'},
+   {k:'visit.button', t:T, l:'हरा बटन'}, {k:'visit.button_en', t:T, l:'बटन की इंग्लिश लाइन'},
+   {k:'visit.whatsapp_message', t:TA, l:'WhatsApp मैसेज की पहली लाइन', h:'नाम, दिन, समय, बजट अपने आप जुड़ जाएंगे'}
+ ], list:{k:'visit.slots', item:'समय', add:'+ समय जोड़ें', title:'समय के बटन', fields:[
+   {k:'name', t:T, l:'नाम', h:'जैसे सुबह'}, {k:'time', t:T, l:'समय', h:'जैसे 10 – 1 बजे'}, {k:'message', t:T, l:'WhatsApp में ऐसे जाएगा'}], blank:{name:'',time:'',message:''}}},
+ {id:'questions', title:'❓ सवाल वाले बटन', where:'बुकिंग के नीचे, 4 छोटे डब्बे', show:'questions.show', fields:[
+   {k:'questions.label', t:T, l:'छोटा नीला लेबल'}, {k:'questions.title', t:T, l:'हेडिंग', h:'<b>*…*</b> वाला हिस्सा पीला'},
+   {k:'questions.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'questions.link_text', t:T, l:'हर डब्बे के नीचे हरी लाइन'}
+ ], list:{k:'questions.items', item:'सवाल', add:'+ सवाल जोड़ें', fields:[
+   {k:'icon', t:T, l:'इमोजी'}, {k:'question', t:T, l:'सवाल'}, {k:'code', t:T, l:'छोटा कोड (इंग्लिश)', h:'ट्रैकिंग के लिए, जैसे loan'}, {k:'whatsapp_message', t:TA, l:'WhatsApp मैसेज'}], blank:{icon:'❓',question:'',code:'',whatsapp_message:''}}},
+ {id:'footer', title:'⬇️ फुटर (सबसे नीचे)', where:'पेज का आखिरी हिस्सा', fields:[
+   {k:'footer.tagline', t:T, l:'टैगलाइन लाइन 1'}, {k:'footer.tagline_2', t:T, l:'टैगलाइन लाइन 2 (नीली)'},
+   {k:'footer.tagline_hindi', t:T, l:'हिंदी टैगलाइन'}, {k:'footer.address', t:T, l:'पता'},
+   {k:'footer.disclaimer', t:TA, l:'नीचे की छोटी शर्तें (डिस्क्लेमर)'}
+ ]},
+ {id:'sticky_bar', title:'📱 नीचे चिपकी पट्टी', where:'स्क्रॉल करने पर स्क्रीन के नीचे हमेशा दिखने वाले 3 बटन', fields:[
+   {k:'sticky_bar.call', t:T, l:'कॉल बटन'}, {k:'sticky_bar.whatsapp', t:T, l:'WhatsApp बटन'}, {k:'sticky_bar.visit', t:T, l:'साइट विज़िट बटन'}
+ ]},
+ {id:'call_popup', title:'☎️ कॉल पॉपअप', where:'सिर्फ उन ऐप्स में जहाँ सीधा कॉल नहीं लगता', fields:[
+   {k:'call_popup.title', t:T, l:'ऊपर की लाइन'}, {k:'call_popup.button', t:T, l:'कॉल बटन'}, {k:'call_popup.copy', t:T, l:'कॉपी बटन'}, {k:'call_popup.copied', t:T, l:'कॉपी होने के बाद'}
+ ]}
+];
+
+/* ============ helpers ============ */
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function get(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k]},o)}
+function set(o,p,v){var ks=p.split('.'),l=ks.pop(),t=ks.reduce(function(a,k){if(a[k]==null)a[k]={};return a[k]},o);t[l]=v}
+function clone(o){return JSON.parse(JSON.stringify(o))}
+function toast(m,ms){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},ms||2600)}
+function b64enc(str){return btoa(unescape(encodeURIComponent(str)))}
+function b64dec(b){return decodeURIComponent(escape(atob(b.replace(/\n/g,''))))}
+function sget(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function sset(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function sdel(k){try{localStorage.removeItem(k)}catch(e){}}
+
+var TOKEN='', ORIG=null, DATA=null, SHA='', PENDING={};   // PENDING: dataURL -> {name, b64, mime}
+
+/* ============ GitHub API ============ */
+function gh(path,opt){
+  opt=opt||{}; opt.headers=Object.assign({'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json'},opt.headers||{});
+  return fetch(API+path+(opt.method?'':'?ref='+REPO.branch+'&t='+Date.now()),opt).then(function(r){
+    if(!r.ok) return r.json().catch(function(){return{}}).then(function(j){var e=new Error(j.message||('HTTP '+r.status));e.status=r.status;throw e;});
+    return r.json();
+  });
+}
+function putFile(path,b64,msg,sha){
+  var body={message:msg,content:b64,branch:REPO.branch}; if(sha) body.sha=sha;
+  return gh(path,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+}
+
+/* ============ LOGIN ============ */
+$('loginBtn').onclick=function(){ login($('tok').value.trim(), $('rem').checked); };
+$('tok').addEventListener('keydown',function(e){if(e.key==='Enter')$('loginBtn').click()});
+function login(tok,remember){
+  if(!tok){$('lerr').textContent='टोकन डालें';return;}
+  TOKEN=tok; $('lerr').textContent=''; $('loginBtn').disabled=true; $('loginBtn').textContent='चेक हो रहा है…';
+  gh('content.json').then(function(j){
+    if(remember) sset('cg_admin_tok',tok); else try{sessionStorage.setItem('cg_admin_tok',tok)}catch(e){}
+    SHA=j.sha; ORIG=JSON.parse(b64dec(j.content)); DATA=clone(ORIG);
+    $('login').classList.add('hidden'); $('appw').classList.remove('hidden');
+    build(); loadPreview(); setStatus();
+  }).catch(function(e){
+    $('lerr').textContent = e.status===401||e.status===403 ? 'टोकन गलत है या उसमें इस repo की permission नहीं है।' : e.status===404 ? 'Repo/फाइल नहीं मिली — टोकन में 21-villa-township repo चुना है?' : 'एरर: '+e.message;
+    sdel('cg_admin_tok');
+  }).finally(function(){ $('loginBtn').disabled=false; $('loginBtn').textContent='लॉगिन करें'; });
+}
+$('logout').onclick=function(){ if(dirty()&&!confirm('बिना सेव किए बदलाव मिट जाएंगे। लॉगआउट करें?'))return; sdel('cg_admin_tok'); try{sessionStorage.removeItem('cg_admin_tok')}catch(e){} location.reload(); };
+(function(){ var t=sget('cg_admin_tok'); try{t=t||sessionStorage.getItem('cg_admin_tok')}catch(e){} if(t){ $('tok').value=t; login(t,!!sget('cg_admin_tok')); } })();
+
+/* ============ BUILD EDITOR ============ */
+function build(){
+  $('nav').innerHTML=SCHEMA.map(function(s,i){return '<button data-go="'+s.id+'"'+(i===0?' class="on"':'')+'>'+s.title+'</button>'}).join('');
+  $('editor').innerHTML=SCHEMA.map(secHTML).join('');
+  bindEditor();
+}
+function secHTML(s){
+  var h='<section class="sec" id="sec-'+s.id+'" data-focus="'+(s.list&&!s.fields?s.list.k:(s.fields?s.fields[0].k:s.id))+'"><h2>'+s.title+
+    (s.show?'<span class="tgl">पेज पर दिखाएं <button class="sw" data-show="'+s.show+'" role="switch" aria-checked="'+(get(DATA,s.show)!==false)+'"></button></span>':'')+
+    '</h2><p class="where">📍 पेज पर: '+s.where+'</p>';
+  (s.fields||[]).forEach(function(f){ h+=fieldHTML(f,f.k); });
+  if(s.list) h+=listHTML(s.list);
+  return h+'</section>';
+}
+function fieldHTML(f,path){
+  var v=get(DATA,path), id='f_'+path.replace(/\./g,'_');
+  var h='<div class="f" data-path="'+path+'"><label for="'+id+'">'+f.l+'</label>'+(f.h?'<div class="hint">'+f.h+'</div>':'');
+  if(f.t===IMG||f.t===VID) h+=mediaHTML(f,path,v);
+  else if(f.t===TA) h+='<textarea class="inp" id="'+id+'" data-k="'+path+'">'+esc(v)+'</textarea>';
+  else if(f.t===NUM) h+='<input class="inp" type="number" id="'+id+'" data-k="'+path+'" data-num="1" value="'+esc(v)+'">';
+  else if(f.t===PH) h+='<div class="row"><span style="color:var(--muted)">+91</span><input class="inp" inputmode="numeric" maxlength="10" id="'+id+'" data-k="'+path+'" data-phone="1" value="'+esc(String(v||'').replace(/^91/,''))+'"></div>';
+  else if(f.t===LST) h+=strListHTML(path,v||[],f.add);
+  else h+='<input class="inp" id="'+id+'" data-k="'+path+'" value="'+esc(v)+'">';
+  return h+'</div>';
+}
+function mediaHTML(f,path,v){
+  var isNew=v&&v.indexOf('data:')===0, isVid=f.t===VID;
+  var name=isNew?(PENDING[v]?PENDING[v].name:'नई फाइल'):(v||'— कोई फाइल नहीं —');
+  var media=v?(isVid?'<video src="'+esc(v)+'" muted playsinline preload="metadata"></video>':'<img src="'+esc(v)+'" alt="">'):'';
+  return '<div class="imgf"><div class="thumb'+(f.contain?' contain':'')+'">'+media+'<span class="badge'+(isNew?' new':'')+'">'+(isNew?'नई — सेव बाकी':'अभी लगी हुई')+'</span></div>'+
+    '<div><div class="meta">'+esc(name)+'</div><div class="acts">'+
+    '<label class="b b-gold b-sm">'+(isVid?'🎬 वीडियो बदलें':'📷 फोटो बदलें')+'<input type="file" hidden accept="'+(isVid?'video/mp4,video/*':'image/*')+'" data-file="'+path+'"'+(f.contain?' data-png="1"':'')+'></label>'+
+    '<button class="b b-ghost b-sm" data-locate="'+path+'">👁️ पेज पर दिखाएं</button>'+
+    (isNew?'<button class="b b-ghost b-sm" data-revert="'+path+'">↩︎ पुरानी वापस</button>':'')+'</div></div></div>';
+}
+function strListHTML(path,arr,add){
+  return '<div class="list">'+arr.map(function(t,i){return '<div class="row"><input class="inp" data-k="'+path+'.'+i+'" value="'+esc(t)+'">'+
+    '<button class="b b-ghost b-sm" data-up="'+path+'" data-i="'+i+'" title="ऊपर">↑</button><button class="b b-red b-sm" data-del="'+path+'" data-i="'+i+'" title="हटाएं">✕</button></div>'}).join('')+
+    '</div><button class="b b-ghost b-sm add" data-addstr="'+path+'">'+(add||'+ जोड़ें')+'</button>';
+}
+function listHTML(L){
+  var arr=get(DATA,L.k)||[];
+  var h='<div class="f" data-path="'+L.k+'"><label>'+(L.title||(L.item+' लिस्ट'))+'</label><div class="hint">↑ से ऊपर-नीचे करें, ✕ से हटाएं</div><div class="list">';
+  arr.forEach(function(it,i){
+    h+='<div class="item" data-path="'+L.k+'.'+i+'"><div class="ih"><b>'+L.item+' '+(i+1)+'</b>'+
+      '<button data-up="'+L.k+'" data-i="'+i+'" title="ऊपर">↑</button><button data-down="'+L.k+'" data-i="'+i+'" title="नीचे">↓</button><button data-del="'+L.k+'" data-i="'+i+'" title="हटाएं" style="color:var(--red)">✕</button></div>';
+    L.fields.forEach(function(f){
+      var p=L.k+'.'+i+'.'+f.k;
+      if(f.t===IMG) h+='<div class="sub">'+(f.l?'<label>'+f.l+'</label>':'')+mediaHTML(f,p,get(DATA,p))+'</div>';
+      else h+='<div class="sub"><label>'+f.l+(f.h?' <span style="font-weight:500;color:var(--muted)">· '+f.h.replace(/<[^>]+>/g,'')+'</span>':'')+'</label>'+
+        (f.t===TA?'<textarea class="inp" data-k="'+p+'">'+esc(get(DATA,p))+'</textarea>':'<input class="inp" data-k="'+p+'" value="'+esc(get(DATA,p))+'">')+'</div>';
+    });
+    h+='</div>';
+  });
+  return h+'</div><button class="b b-ghost add" data-additem="'+L.k+'">'+L.add+'</button></div>';
+}
+function findList(k){ for(var i=0;i<SCHEMA.length;i++) if(SCHEMA[i].list&&SCHEMA[i].list.k===k) return SCHEMA[i].list; }
+function rerenderSec(path){
+  var s=SCHEMA.filter(function(x){return path.indexOf(x.id)===0 || (x.list&&path.indexOf(x.list.k)===0)})[0]; if(!s) return build();
+  var el=$('sec-'+s.id), y=scrollY; el.outerHTML=secHTML(s); bindEditor(); scrollTo(0,y);
+}
+
+/* ============ EDITOR EVENTS ============ */
+function bindEditor(){
+  var ed=$('editor');
+  if(ed.__bound) return; ed.__bound=true;
+  ed.addEventListener('input',function(e){
+    var el=e.target, k=el.dataset.k; if(!k) return;
+    var v=el.value;
+    if(el.dataset.phone){ v=v.replace(/\D/g,'').slice(0,10); el.value=v; v=v?'91'+v:'';
+      if(k==='settings.phone' && v.length===12){ var disp='+91 '+v.slice(2,7)+' '+v.slice(7); set(DATA,'settings.phone_display',disp); var d=document.querySelector('[data-k="settings.phone_display"]'); if(d) d.value=disp; } }
+    if(el.dataset.num) v=v===''?'':+v;
+    set(DATA,k,v); changed();
+  });
+  ed.addEventListener('click',function(e){
+    var t=e.target.closest('button,[data-path]'); if(!t) return;
+    var d=t.dataset;
+    if(d.show){ var on=t.getAttribute('aria-checked')!=='true'; t.setAttribute('aria-checked',on); set(DATA,d.show,on); changed(); return; }
+    if(d.locate){ focusPv(d.locate); if(innerWidth<=920) setMode('prev'); return; }
+    if(d.revert){ set(DATA,d.revert,get(ORIG,d.revert)||''); changed(); rerenderSec(d.revert); return; }
+    if(d.addstr){ var a=get(DATA,d.addstr)||[]; a.push(''); set(DATA,d.addstr,a); changed(); rerenderSec(d.addstr); return; }
+    if(d.additem){ var L=findList(d.additem), a2=get(DATA,d.additem)||[]; a2.push(clone(L.blank)); set(DATA,d.additem,a2); changed(); rerenderSec(d.additem); return; }
+    var lp=d.del||d.up||d.down;
+    if(lp){ var arr=get(DATA,lp), i=+d.i;
+      if(d.del){ if(!confirm('इसे हटाएं?'))return; arr.splice(i,1); }
+      else if(d.up&&i>0){ arr.splice(i-1,0,arr.splice(i,1)[0]); }
+      else if(d.down&&i<arr.length-1){ arr.splice(i+1,0,arr.splice(i,1)[0]); }
+      changed(); rerenderSec(lp); return; }
+  });
+  ed.addEventListener('focusin',function(e){ var f=e.target.closest('[data-path]'); markFocus(f); if(e.target.dataset.k) focusPv(e.target.dataset.k); });
+  ed.addEventListener('change',function(e){ var el=e.target; if(el.dataset.file && el.files[0]) pickFile(el.dataset.file, el.files[0], !!el.dataset.png); });
+}
+function markFocus(f){ document.querySelectorAll('.f.focus').forEach(function(x){x.classList.remove('focus')}); if(f&&f.classList.contains('f')) f.classList.add('focus'); }
+
+/* nav */
+document.addEventListener('click',function(e){ var b=e.target.closest('[data-go]'); if(!b) return;
+  document.querySelectorAll('.nav button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on');
+  setMode('edit'); $('sec-'+b.dataset.go).scrollIntoView({behavior:'smooth'}); var s=$('sec-'+b.dataset.go); focusPv(s.dataset.focus); });
+document.querySelectorAll('.mtabs button').forEach(function(b){ b.onclick=function(){ setMode(b.dataset.m); }; });
+function setMode(m){ document.body.className='m-'+m; document.querySelectorAll('.mtabs button').forEach(function(x){x.classList.toggle('on',x.dataset.m===m)}); }
+
+/* ============ FILE PICK (photo resize) ============ */
+function pickFile(path,file,keepPng){
+  if(/^video\//.test(file.type)){
+    if(file.size>45*1024*1024){ toast('वीडियो 45MB से बड़ी है — छोटी करके डालें',4000); return; }
+    var r=new FileReader(); r.onload=function(){ stage(path,r.result,file.name.replace(/[^\w.-]+/g,'-').toLowerCase()||'video.mp4','video/mp4'); }; r.readAsDataURL(file); return;
+  }
+  var img=new Image(), url=URL.createObjectURL(file);
+  img.onload=function(){
+    var max=1800, w=img.naturalWidth, h=img.naturalHeight, sc=Math.min(1,max/Math.max(w,h));
+    var cv=document.createElement('canvas'); cv.width=Math.round(w*sc); cv.height=Math.round(h*sc);
+    var png=keepPng && file.type==='image/png';
+    var ctx=cv.getContext('2d'); if(!png){ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);} ctx.drawImage(img,0,0,cv.width,cv.height);
+    var du=cv.toDataURL(png?'image/png':'image/jpeg',0.84); URL.revokeObjectURL(url);
+    var base=(file.name.replace(/\.[^.]+$/,'').replace(/[^\w-]+/g,'-').toLowerCase()||'photo').slice(0,40);
+    stage(path,du,base+(png?'.png':'.jpg'),png?'image/png':'image/jpeg');
+  };
+  img.onerror=function(){ toast('ये फोटो नहीं खुल रही — JPG/PNG डालें'); };
+  img.src=url;
+}
+function stage(path,dataURL,name,mime){
+  PENDING[dataURL]={name:name,b64:dataURL.split(',')[1],mime:mime};
+  set(DATA,path,dataURL); changed(); rerenderSec(path); focusPv(path); toast('नई फाइल प्रीव्यू में लग गई — सेव करना न भूलें');
+}
+
+/* ============ PREVIEW ============ */
+var pvReady=false, pvTimer=null;
+function loadPreview(){
+  try{ sessionStorage.setItem('cg_draft',JSON.stringify(DATA)); }catch(e){}
+  $('pv').src='index.html?edit=1&t='+Date.now();
+}
+window.addEventListener('message',function(e){ if(e.origin!==location.origin) return; if(e.data&&e.data.type==='cg-ready'){ pvReady=true; pushPv(); } });
+function pushPv(){ if(!pvReady) return; $('pv').contentWindow.postMessage({type:'cg-content',content:DATA},location.origin); }
+function focusPv(path){ if(pvReady) $('pv').contentWindow.postMessage({type:'cg-focus',path:path},location.origin); }
+
+/* ============ STATE ============ */
+function dirty(){ return JSON.stringify(DATA)!==JSON.stringify(ORIG); }
+function changed(){ clearTimeout(pvTimer); pvTimer=setTimeout(pushPv,250); setStatus(); }
+function setStatus(){
+  var d=dirty(), n=Object.keys(PENDING).filter(function(u){return JSON.stringify(DATA).indexOf(u.slice(0,80))>-1}).length;
+  $('saveBtn').disabled=!d; $('undo').disabled=!d;
+  $('smsg').innerHTML=d?'<b>बदलाव सेव नहीं हुए</b>'+(n?' · '+n+' नई फाइल':''):'सब सेव है ✓';
+  $('status').textContent=d?'• बदलाव बाकी':'✓ लाइव से मेल खाता है'; $('status').className='status'+(d?' dirty':'');
+}
+$('undo').onclick=function(){ if(!confirm('सारे बदलाव हटा कर पुराना वापस लाएं?'))return; DATA=clone(ORIG); PENDING={}; build(); pushPv(); setStatus(); };
+window.addEventListener('beforeunload',function(e){ if(DATA&&dirty()){ e.preventDefault(); e.returnValue=''; } });
+
+/* ============ SAVE ============ */
+$('saveBtn').onclick=function(){
+  var btn=this; btn.disabled=true; $('undo').disabled=true;
+  var out=clone(DATA), uploads=[], ts=Date.now().toString(36);
+  (function walk(o){ Object.keys(o).forEach(function(k){ var v=o[k];
+    if(typeof v==='string'&&v.indexOf('data:')===0&&PENDING[v]){ var p='uploads/'+ts+'-'+uploads.length+'-'+PENDING[v].name; uploads.push({path:p,b64:PENDING[v].b64}); o[k]=p; }
+    else if(v&&typeof v==='object') walk(v); }); })(out);
+  var total=uploads.length+1, done=0; prog(0);
+  $('smsg').textContent='सेव हो रहा है…';
+  uploads.reduce(function(pr,u){ return pr.then(function(){ $('smsg').textContent='फाइल अपलोड ('+(done+1)+'/'+uploads.length+')…'; return putFile(u.path,u.b64,'Admin: upload '+u.path).then(function(){done++;prog(done/total)}); }); }, Promise.resolve())
+  .then(function(){ return putFile('content.json', b64enc(JSON.stringify(out,null,2)+'\n'), 'Admin: page content update', SHA); })
+  .then(function(r){ SHA=r.content.sha; ORIG=clone(out); DATA=clone(out); PENDING={}; prog(1); build(); pushPv(); setStatus();
+    toast('✓ सेव हो गया! 1–2 मिनट में लाइव पेज पर दिखेगा',5000); $('smsg').innerHTML='✓ सेव हो गया — <b>1–2 मिनट</b> में लाइव'; setTimeout(function(){$('prog').classList.add('hidden')},1500); })
+  .catch(function(e){
+    var m = e.status===409 ? 'किसी और ने बीच में बदलाव किया — पेज रीफ्रेश करके फिर करें' : e.status===401||e.status===403 ? 'टोकन की permission खत्म/गलत — दोबारा लॉगिन करें' : e.status===422&&/too large|size/i.test(e.message) ? 'फाइल बहुत बड़ी है' : e.message;
+    toast('सेव नहीं हुआ: '+m,6000); $('smsg').innerHTML='<b style="color:var(--red)">सेव नहीं हुआ</b> — '+esc(m); btn.disabled=false; $('undo').disabled=false; $('prog').classList.add('hidden');
+  });
+};
+function prog(f){ $('prog').classList.remove('hidden'); $('prog').firstElementChild.style.width=Math.round(f*100)+'%'; }
+</script>
+</body>
+</html>

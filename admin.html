@@ -265,6 +265,13 @@ var SCHEMA = [
    {k:'questions.english_line', t:T, l:'इंग्लिश लाइन'}, {k:'questions.link_text', t:T, l:'हर डब्बे के नीचे हरी लाइन'}
  ], list:{k:'questions.items', item:'सवाल', add:'+ सवाल जोड़ें', fields:[
    {k:'icon', t:T, l:'इमोजी'}, {k:'question', t:T, l:'सवाल'}, {k:'code', t:T, l:'छोटा कोड (इंग्लिश)', h:'ट्रैकिंग के लिए, जैसे loan'}, {k:'whatsapp_message', t:TA, l:'WhatsApp मैसेज'}], blank:{icon:'❓',question:'',code:'',whatsapp_message:''}}},
+ {id:'proof', title:'🔔 बुकिंग पॉपअप', where:'पेज पर नीचे-बाएं कोने में, कुछ सेकंड के लिए आकर चला जाता है', show:'proof.show', fields:[
+   {k:'proof.icon', t:T, l:'गोल आइकन (इमोजी)'}, {k:'proof.template', t:T, l:'पॉपअप की लाइन', h:'{name} की जगह नाम आएगा। जैसे: {name} ने साइट विज़िट बुक की'},
+   {k:'proof.first_delay', t:T, l:'पहला पॉपअप कितने सेकंड बाद', h:'नंबर लिखें, जैसे 8'}, {k:'proof.show_seconds', t:T, l:'पॉपअप कितने सेकंड दिखे', h:'1 से 5, जैसे 4'},
+   {k:'proof.gap_min', t:T, l:'अगला पॉपअप कम से कम कितने सेकंड बाद', h:'जैसे 10'}, {k:'proof.gap_max', t:T, l:'अगला पॉपअप ज़्यादा से ज़्यादा कितने सेकंड बाद', h:'जैसे 20'},
+   {k:'proof.max_per_visit', t:T, l:'एक विज़िटर को कुल कितने पॉपअप', h:'जैसे 6'}
+ ], list:{k:'proof.people', item:'नाम', add:'+ नया नाम जोड़ें', title:'असली बुकिंग वाले नाम (सिर्फ वही जिन्होंने सच में बुक किया और नाम दिखाने की इजाज़त दी)', fields:[
+   {k:'name', t:T, l:'नाम', h:'जैसे: राहुल श्रीवास्तव'}, {k:'when', t:T, l:'कब बुक किया (सही लिखें)', h:'जैसे: आज / कल / इस हफ्ते'}], blank:{name:'',when:''}}},
  {id:'footer', title:'⬇️ फुटर (सबसे नीचे)', where:'पेज का आखिरी हिस्सा', fields:[
    {k:'footer.tagline', t:T, l:'टैगलाइन लाइन 1'}, {k:'footer.tagline_2', t:T, l:'टैगलाइन लाइन 2 (नीली)'},
    {k:'footer.tagline_hindi', t:T, l:'हिंदी टैगलाइन'}, {k:'footer.address', t:T, l:'पता'},

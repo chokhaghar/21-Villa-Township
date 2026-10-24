@@ -298,6 +298,17 @@
       }
     ]
   },
+  "proof": {
+    "show": true,
+    "icon": "✅",
+    "template": "{name} ने साइट विज़िट बुक की",
+    "first_delay": 8,
+    "show_seconds": 4,
+    "gap_min": 10,
+    "gap_max": 20,
+    "max_per_visit": 6,
+    "people": []
+  },
   "footer": {
     "tagline": "Chokha Ghar,",
     "tagline_2": "Chokhi Zindagi",

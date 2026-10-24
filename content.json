@@ -301,13 +301,158 @@
   "proof": {
     "show": true,
     "icon": "✅",
-    "template": "{name} ने साइट विज़िट बुक की",
+    "template": "{name} ने फ्री साइट विज़िट के लिए रिक्वेस्ट भेजी",
     "first_delay": 8,
     "show_seconds": 3,
     "gap_min": 10,
     "gap_max": 20,
     "max_per_visit": 6,
-    "people": []
+    "people": [
+      {
+        "name": "Sujal",
+        "when": ""
+      },
+      {
+        "name": "Kshitij S.",
+        "when": ""
+      },
+      {
+        "name": "Himanshu",
+        "when": ""
+      },
+      {
+        "name": "Ramraj B.",
+        "when": ""
+      },
+      {
+        "name": "Chelaram S.",
+        "when": ""
+      },
+      {
+        "name": "Shefali K.",
+        "when": ""
+      },
+      {
+        "name": "Vikas G.",
+        "when": ""
+      },
+      {
+        "name": "Siddharth",
+        "when": ""
+      },
+      {
+        "name": "Muskan A.",
+        "when": ""
+      },
+      {
+        "name": "Ramdev P.",
+        "when": ""
+      },
+      {
+        "name": "Palak",
+        "when": ""
+      },
+      {
+        "name": "Niraj K.",
+        "when": ""
+      },
+      {
+        "name": "Pradeep S.",
+        "when": ""
+      },
+      {
+        "name": "Nitesh S.",
+        "when": ""
+      },
+      {
+        "name": "रामप्रकाश ज.",
+        "when": ""
+      },
+      {
+        "name": "Gargi C.",
+        "when": ""
+      },
+      {
+        "name": "Gangadhar G.",
+        "when": ""
+      },
+      {
+        "name": "Ajay Y.",
+        "when": ""
+      },
+      {
+        "name": "Anita S.",
+        "when": ""
+      },
+      {
+        "name": "Sapana A.",
+        "when": ""
+      },
+      {
+        "name": "Mohinder S.",
+        "when": ""
+      },
+      {
+        "name": "Rajeev S.",
+        "when": ""
+      },
+      {
+        "name": "Lalit",
+        "when": ""
+      },
+      {
+        "name": "Bhagrith B.",
+        "when": ""
+      },
+      {
+        "name": "Naresh",
+        "when": ""
+      },
+      {
+        "name": "Shyam C.",
+        "when": ""
+      },
+      {
+        "name": "Ravi S.",
+        "when": ""
+      },
+      {
+        "name": "Rohit S.",
+        "when": ""
+      },
+      {
+        "name": "Vinod K.",
+        "when": ""
+      },
+      {
+        "name": "Mukesh J.",
+        "when": ""
+      },
+      {
+        "name": "Laxmi B.",
+        "when": ""
+      },
+      {
+        "name": "Vivek S.",
+        "when": ""
+      },
+      {
+        "name": "Vijesh T.",
+        "when": ""
+      },
+      {
+        "name": "Brijesh B.",
+        "when": ""
+      },
+      {
+        "name": "Priti J.",
+        "when": ""
+      },
+      {
+        "name": "Mugdha K.",
+        "when": ""
+      }
+    ]
   },
   "footer": {
     "tagline": "Chokha Ghar,",

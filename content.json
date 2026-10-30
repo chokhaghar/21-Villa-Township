@@ -269,7 +269,7 @@
     "whatsapp_message": "Hi, mujhe 21 Villa Township ki FREE SITE VISIT book karni hai."
   },
   "questions": {
-    "show": true,
+    "show": false,
     "label": "कोई सवाल है?",
     "title": "एक टैप में *पूछिए*",
     "english_line": "Ek tap mein WhatsApp par poochhiye",
